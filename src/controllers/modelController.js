@@ -1,5 +1,6 @@
 const Model = require("../models/model");
 const { body, validationResult } = require("express-validator");
+const User = require('../models/User')
 
 const handleError = err => {
   console.log(err);
@@ -31,14 +32,28 @@ exports.model_create_get = (req, res, next) => {
 //rendering from backend
 
 // Handle model object create on POST.
-exports.model_create_post = (req, res) => {
-  Model.create({ name: "some modelname" }, function (err, model_instance) {
-    if (err) return handleError(err);
-    // saved!
-    console.log(model_instance.name);
-    res.send({ data: model_instance });
-  });
-};
+exports.model_create_post = async (req, res) => {
+try{
+  console.log("ho gaya")
+  console.log(req.body)
+    
+}catch (error) {
+  console.error(error.message);
+  res.status(500).send("Some error request");}
+
+
+//   Model.create({ name: "some modelname" }, function (err, model_instance) {
+//     if (err) return handleError(err);
+//     // saved!
+//     console.log(model_instance.name);
+//     res.send({ data: model_instance });
+//   });
+// };
+
+}
+
+
+
 // Handle Author create on POST.
 exports.model_create_post_form = [
   // Validate and sanitize fields.
