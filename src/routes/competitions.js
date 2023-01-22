@@ -90,7 +90,13 @@ router.post(
       });
 
       const savedComp = await comp.save();
-      console.log(savedComp)
+
+      postinguser=await User.findById(uid);
+      postinguser.applied.push({competition:savedComp._id,team:[]});
+      postinguser.save();
+
+      console.log(postinguser);
+      console.log(savedComp);
       res.json(savedComp);
     } catch (error) {
       console.error(error.message);
@@ -214,19 +220,48 @@ router.delete("/deletecomp/:id", fetchuser, async (req, res) => {
       res.status(500).send("Internal Error occured");
     }
   });
-
-  router.post("/apply/:id",async (req, res) => {
+  router.post("/apply",async (req, res) => {
     try {
   
       // Find the competition to be deleted and delete it
-      let comp = await Competition.findById(req.params.id);
+      console.log(req.body);
+      let comp = await Competition.findById(req.body.compid);
       if (!comp) {
         return res.status(404).send("Not found");
       }
-      comp = await Competition.findByIdAndUpdate(
-        req.params.id,
-       
-      );
+      console.log(comp)
+     
+      applyinguser=await User.findById(req.body.uid);
+      applyinguser.applied.push({competition:comp._id,accepted:false,message:""});
+    applyinguser.save();
+
+      console.log(applyinguser)
+
+      res.json({ comp });
+    } catch (error) {
+      console.error(error.message);
+      res.status(500).send("Internal Error occured");
+    }
+  });
+module.exports = router;
+
+  router.post("/apply",async (req, res) => {
+    try {
+  
+      // Find the competition to be deleted and delete it
+      console.log(req.body);
+      let comp = await Competition.findById(req.body.compid);
+      if (!comp) {
+        return res.status(404).send("Not found");
+      }
+      console.log(comp)
+     
+      applyinguser=await User.findById(req.body.uid);
+      applyinguser.applied.push({competition:comp._id,accepted:false,message:""});
+    applyinguser.save();
+
+      console.log(applyinguser)
+
       res.json({ comp });
     } catch (error) {
       console.error(error.message);
