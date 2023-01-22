@@ -69,7 +69,7 @@ router.post(
       if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
       }
-      let comp = await Competition.findOne({ title: req.body.title ,user:req.body.user});
+      let comp = await Competition.findOne({ title: req.body.title });
       if (comp) {
         return res
           .status(400)
@@ -101,8 +101,11 @@ router.post(
       const savedComp = await comp.save();
 
       postinguser=await User.findById(uid);
+      if(postinguser)
+      {
       postinguser.applied.push({competition:savedComp._id,team:[]});
       postinguser.save();
+      }
 
       console.log(postinguser);
       console.log(savedComp);
