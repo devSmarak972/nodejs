@@ -214,4 +214,23 @@ router.delete("/deletecomp/:id", fetchuser, async (req, res) => {
       res.status(500).send("Internal Error occured");
     }
   });
+
+  router.post("/apply/:id",async (req, res) => {
+    try {
+  
+      // Find the competition to be deleted and delete it
+      let comp = await Competition.findById(req.params.id);
+      if (!comp) {
+        return res.status(404).send("Not found");
+      }
+      comp = await Competition.findByIdAndUpdate(
+        req.params.id,
+       
+      );
+      res.json({ comp });
+    } catch (error) {
+      console.error(error.message);
+      res.status(500).send("Internal Error occured");
+    }
+  });
 module.exports = router;
