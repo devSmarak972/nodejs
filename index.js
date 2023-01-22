@@ -18,6 +18,7 @@ app.listen(config.server.port, () =>
   console.log(`Server listening at server port ${config.server.port}`)
 );
 app.use('/api/auth', require('./src/routes/auth'))
+app.use('/api/comp', require('./src/routes/competitions'))
 
 // const indexRouter = require("./routes/index");
 // const usersRouter = require("./routes/users");

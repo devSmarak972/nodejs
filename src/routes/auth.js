@@ -5,7 +5,6 @@ const { body, validationResult } = require("express-validator");
 var bcrypt = require("bcryptjs");
 var jwt = require("jsonwebtoken");
 const fetchuser = require('../middlewares/fetchUser')
-// var fetchuser = require("../middleware/fetchUser");
 
 require("dotenv").config();
 

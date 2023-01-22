@@ -1,6 +1,10 @@
 const mongoose = require("mongoose");
 
 const Competition = mongoose.Schema({
+    user:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'user'
+    },
   img: {
     type: String,
     required: true,
@@ -20,7 +24,7 @@ const Competition = mongoose.Schema({
   visibility: {
     type: String,
     required: true,
-  }, //boolean
+  }, 
   eligibility: {
     type: String,
     required: true,
@@ -36,6 +40,10 @@ const Competition = mongoose.Schema({
   fee: {
     type: String,
     required: true,
+  },
+  updatedOn:{
+    type: Date,
+    default: Date.now()
   },
   regDeadline: {
     type: Date,
