@@ -38,7 +38,15 @@ course: {
 date:{
   type:Date,
   default: Date.now
-}
+},
+posted:[{
+  type: mongoose.Schema.Types.ObjectId,
+  ref: 'competition'
+}],
+applied:[{
+  type: mongoose.Schema.Types.ObjectId,
+  ref: 'competition'
+}],
 });
 
 module.exports = mongoose.model("user", User, "user");
