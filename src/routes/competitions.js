@@ -19,6 +19,15 @@ router.get("/fetchallcomp",  async (req, res) => {
     res.status(500).send("Internal Error occured");
   }
 });
+router.get("/fetchcomp/:id",  async (req, res) => {
+  try {
+    const comp = await Competition.find({id:req.params.id}).populate('user');
+    res.json(comp);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("Internal Error occured");
+  }
+});
 
 // ROUTE 2:
 //Add a new competition using: POST "/api/comp/addcomp". login required
