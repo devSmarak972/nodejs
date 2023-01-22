@@ -10,9 +10,9 @@ require("dotenv").config();
 
 // ROUTE 1:
 //Get all the notes using: GET "/api/comp/fetchallcomp". login required
-router.get("/fetchallcomp", fetchuser, async (req, res) => {
+router.get("/fetchallcomp",  async (req, res) => {
   try {
-    const comp = await Competition.find({ user: req.user.id });
+    const comp = await Competition.find({}).populate('user');
     res.json(comp);
   } catch (error) {
     console.error(error.message);
@@ -24,7 +24,6 @@ router.get("/fetchallcomp", fetchuser, async (req, res) => {
 //Add a new competition using: POST "/api/comp/addcomp". login required
 router.post(
   "/addcomp",
-  fetchuser,
   [
     body("title", "Enter a Valid title").isLength({ min: 3 }),
     //   body("description", "Description must be atleast 5 chracters ").isLength({
@@ -37,49 +36,61 @@ router.post(
         img,
         title,
         orgName,
-        modeOfEvent,
-        visibility,
+        mode,
         eligibility,
-        priceMoney,
-        teamSize,
+        prize,
+        teamsize,
         fee,
         regDeadline,
         startDate,
         endDate,
         rewards,
-        description,
+        desc,
+        incentives,
+        url,
+        uid,status,domain
+       
       } = req.body;
+      // console.log(Date.now(),new Date(Date.parse(regDeadline)));
+      // req.body["status"]=Date.now()>(new Date(Date.parse(regDeadline))).now()?"Live":"Expired";
+      req.body["status"]="Live";
       // is there are errors, return bad request and the errors
       const errors = validationResult(req);
+      console.log(req.body);
       if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
       }
-      let comp = await Competition.findOne({ title: req.body.title });
+      let comp = await Competition.findOne({ title: req.body.title ,user:req.body.user});
       if (comp) {
         return res
           .status(400)
           .json({errors: "Sorry a competition already exist with this title " });
       }
-    
+      console.log(req.body.uid);
        comp = new Competition({
         img,
         title,
         orgName,
-        modeOfEvent,
-        visibility,
+        mode,
+        // visibility,
         eligibility,
-        priceMoney,
-        teamSize,
+        prize,
+        teamsize,
         fee,
         regDeadline,
         startDate,
         endDate,
         rewards,
-        description,
-        user: req.user.id,
+        desc,
+        incentives,
+        url,
+        domain,
+        status,
+        user: uid,
       });
 
       const savedComp = await comp.save();
+      console.log(savedComp)
       res.json(savedComp);
     } catch (error) {
       console.error(error.message);

@@ -5,41 +5,58 @@ const Competition = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user'
     },
-  img: {
+    status:{
+      type:String,
+      required:false,
+    },
+    domain:{
+      type:String,
+      required:false,
+    },
+  category:[{
     type: String,
-    required: true,
+    required:false,
+  }],
+  applied:{
+    type:Number,
+
   },
   title: {
     type: String,
-    required: true,
+    required:false,
   },
   orgName: {
     type: String,
-    required: true,
+    required:false,
   },
-  modeOfEvent: {
+  url:{
+    type:String,
+  },
+  mode: {
     type: String,
-    required: true,
+    required:false,
   },
+
   visibility: {
     type: String,
-    required: true,
+    default: "public",
   }, 
   eligibility: {
     type: String,
-    required: true,
+    // required:false,
   },
-  priceMoney: {
-    type: Number,
-    required: true,
+  prize: {
+    winner: String,
+    firstRunnerUp: String,
+    secondRunnerUp: String,
   },
-  teamSize: {
+  teamsize: {
     type: Number,
-    required: true,
+    required:false,
   },
   fee: {
     type: String,
-    required: true,
+    required:false,
   },
   updatedOn:{
     type: Date,
@@ -47,35 +64,36 @@ const Competition = mongoose.Schema({
   },
   regDeadline: {
     type: Date,
-    required: true,
+    required:false,
   },
   startDate: {
     type: Date,
-    required: true,
+    required:false,
   },
   endDate: {
     type: Date,
-    required: true,
+    required:false,
   },
   rewards: {
-    winner: Number,
-    firstRunnerUp: Number,
-    secondRunnerUp: Number,
+    type:String,
   },
-  description: {
-    rounds: [
+  incentive:{
+    type:String,
+  },
+  desc:{
+    type:String,
+    required:false,
+  },
+  rounds: 
+    [
       {
-        roundNumber: {
-          type: Number,
-          required: true,
-        },
         description: {
           type: String,
-          required: true,
+          required:false,
         },
       },
     ],
-  },
+
 });
 
 module.exports = mongoose.model("competition", Competition, "competition");

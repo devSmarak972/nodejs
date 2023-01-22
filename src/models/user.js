@@ -17,36 +17,52 @@ password:{
 },
   college: {
     type: String,
-    required: true
+    // required: true
 }, 
   phone: {
     type: String,
-    required: true
+    // required: true
 },
 gender: {
     type: String,
-    required: true
+    // required: true
 },
 yearOfStudy: {
     type: Number,
-    required: true
+    // required: true
 },
 course: {
     type: String,
-    required: true
+    // required: true
 },
 date:{
   type:Date,
   default: Date.now
 },
 posted:[{
+  competition:{
   type: mongoose.Schema.Types.ObjectId,
   ref: 'competition'
-}],
+},
+team:[{
+  type: mongoose.Schema.Types.ObjectId,
+  ref: 'user'
+}]
+}
+],
 applied:[{
+  competition:{
   type: mongoose.Schema.Types.ObjectId,
-  ref: 'competition'
-}],
+  ref: 'competition',
+},
+accepted :{
+  type: Boolean,
+},
+  message :{
+    type:String,
+  }
+}
+],
 });
 
 module.exports = mongoose.model("user", User, "user");

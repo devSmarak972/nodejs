@@ -17,17 +17,18 @@ router.post(
   
         "/createUser",
         [
-          body("name", "Enter a Valid Name").isLength({ min: 3 }),
+          body("username", "Enter a Valid Name").isLength({ min: 3 }),
           body("email", "Enter a valid email").isEmail(),
           body("password", "Password must be atleast 5 letters ").isLength({
             min: 5,
         }),
-        body("phone", "Phone Number should be of 10 digits").isLength(10),
+        // body("phone", "Phone Number should be of 10 digits").isLength(10),
         ],
         async (req, res) => {
           let success = false
-  
+          console.log(req.body);
           const errors = validationResult(req);
+          console.log(errors)
           if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
           }
@@ -39,23 +40,24 @@ router.post(
             if (user) {
               return res
                 .status(400)
-                .json({success, errors: "Sorry a user already exist with this email " });
+                .json({ errors: "Sorry a user already exist with this email " });
             }
       
             const salt = await bcrypt.genSalt(10);
             const secPass = await bcrypt.hash(req.body.password, salt);
             // create a new user
             user = await User.create({
-              name: req.body.name,
+              name: req.body.username,
               email: req.body.email,
               password: secPass,
-              college: req.body.college,
-              phone: req.body.phone,
-              gender: req.body.gender,
-              yearOfStudy: req.body.yearOfStudy,
-              course: req.body.course,
+              // college: req.body.college,
+              // phone: req.body.phone,
+              // gender: req.body.gender,
+              // yearOfStudy: req.body.yearOfStudy,
+              // course: req.body.course,
             
             })
+            console.log(user);
             const data = {
               user: {
                 id: user.id,
@@ -67,7 +69,7 @@ router.post(
       
         //     res.json(user);
             success=true
-            res.json({success, authToken });
+            res.json({success, user });
         // res.json(user)
           } catch (error) {
             console.error(error.message);
@@ -88,7 +90,9 @@ router.post(
         ],
         async (req, res) => {
           // is there are errors, return bad request and the errors
+          console.log(req.body)
           const errors = validationResult(req);
+          console.log(errors);
           if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
           }
@@ -119,7 +123,7 @@ router.post(
       
             const authToken = jwt.sign(data, process.env.JWT_SECRET);
             success=true
-            res.json({success, authToken });
+            res.json({success, user });
           } catch (error) {
             console.error(error.message);
             res.status(500).send("Internal Error occured");
