@@ -56,7 +56,7 @@ router.post(
       req.body["status"]="Live";
       // is there are errors, return bad request and the errors
       const errors = validationResult(req);
-      console.log(req.body);
+      console.log("here",req.body);
       if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
       }

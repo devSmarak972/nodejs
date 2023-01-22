@@ -101,6 +101,8 @@ router.post(
       
           try {
             let user = await User.findOne({ email });
+            console.log(user);
+
             if (!user) {
               return res
                 .status(400)
@@ -123,6 +125,7 @@ router.post(
       
             const authToken = jwt.sign(data, process.env.JWT_SECRET);
             success=true
+            console.log(user);
             res.json({success, user });
           } catch (error) {
             console.error(error.message);

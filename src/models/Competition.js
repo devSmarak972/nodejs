@@ -5,6 +5,10 @@ const Competition = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user'
     },
+    img:{
+      type:String,
+      required:false,
+    },
     status:{
       type:String,
       required:false,
