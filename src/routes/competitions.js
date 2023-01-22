@@ -103,11 +103,7 @@ router.post(
       postinguser=await User.findById(uid);
       if(postinguser)
       {
-<<<<<<< Updated upstream
-      postinguser.applied.push({competition:savedComp._id,team:[]});
-=======
       postinguser.posted.push({competition:savedComp._id, team:[{uid}]});
->>>>>>> Stashed changes
       postinguser.save();
       }
 
